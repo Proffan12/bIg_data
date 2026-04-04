@@ -1,0 +1,17 @@
+services:
+  postgres:
+    build: .
+    container_name: postgres_logs_db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - SECRET_HASH=${SECRET_HASH}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data # Ссылаемся на внутреннее имя 'db_data'
+
+volumes:
+  db_data: # Внутренний ключ (теперь он без переменной и точно сработает)
+    name: ${VOLUME_NAME} # А вот здесь Docker подставит имя из .env
